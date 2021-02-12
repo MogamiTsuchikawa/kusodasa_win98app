@@ -1,13 +1,25 @@
 const electron = require("electron");
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
+const ipcMain = electron.ipcMain;
+const app = electron.app || require('app');
+const BrowserWindow = electron.BrowserWindow || require('browser-window');
+const { dialog } = require('electron');
 const path = require("path");
 const isDev = require("electron-is-dev");
 let mainWindow;
 
 
 function createWindow() {
-    mainWindow = new BrowserWindow({ width: 900, height: 680 });
+    mainWindow = new BrowserWindow({
+        width: 900,
+        height: 680,
+        webPreferences: {
+            nodeIntegration: false,
+            preload: `${__dirname}/preload.js`,
+        },
+    })
+
+    mainWindow.webContents.openDevTools();
+
     mainWindow.loadURL(
         isDev
         ? "http://localhost:3000"
@@ -29,3 +41,18 @@ app.on("activate", () => {
         createWindow();
     }
 });
+
+ipcMain.on('create-dialog', (event, arg) => {
+    console.log(arg)
+    // console.log(remote);
+    // const win = remote.getCurrentWindow();
+    const data = {
+        type: 'warning',
+        buttons: ['OK'],
+        title: 'タイトル',
+        message: 'メッセージ',
+        detail: '詳細メッセージ'
+    }
+    dialog.showMessageBox(data);
+    event.returnValue = 'pong';
+})
