@@ -1,27 +1,22 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-
-import WriteTextToFile from './components/WriteTextToFileClass'
+import TitleBar from './components/TitleBar'
 
 function App() {
+  const windowStyle = {
+    "height": "100%"
+  }
+  const bodyStyle = {
+    "width": "calc(100% - 5px)",
+    "height": "calc(100vh - 45px)"
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <WriteTextToFile />
-      </header>
+    <div className="App window" style={windowStyle}>
+      <TitleBar title="This is Title" />
+      <div className="window-body" style={bodyStyle}>
+        <p>HelloWorld!</p>
+      </div>
     </div>
   );
 }

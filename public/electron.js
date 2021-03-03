@@ -10,6 +10,7 @@ let mainWindow;
 
 function createWindow() {
     mainWindow = new BrowserWindow({
+        frame: false,
         width: 900,
         height: 680,
         webPreferences: {
@@ -55,4 +56,7 @@ ipcMain.on('create-dialog', (event, arg) => {
     }
     dialog.showMessageBox(data);
     event.returnValue = 'pong';
+})
+ipcMain.on('exit', () => {
+    mainWindow.close();
 })
